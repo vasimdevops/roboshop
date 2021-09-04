@@ -9,7 +9,7 @@ gpgkey=https://www.mongodb.org/static/pgp/server-4.2.asc' >/etc/yum.repos.d/mong
 
 #Install Mongo & Start Service.
 echo "installing mongodb"
- yum install -y mongodb-org  >>/tmp/log
+ yum install -y mongodb-org  &>>/tmp/log
  sed -i -e 's/127.0.0.1/0.0.0.0/' /etc/mongod.conf
  
 echo "starting mongodb" 
@@ -24,12 +24,12 @@ systemctl restart mongod
 #Download the schema and load it.
 
 echo "downloading schema"
-curl -s -L -o /tmp/mongodb.zip "https://github.com/roboshop-devops-project/mongodb/archive/main.zip" >/tmp/log
+curl -s -L -o /tmp/mongodb.zip "https://github.com/roboshop-devops-project/mongodb/archive/main.zip" &>>/tmp/log
 
  cd /tmp
  echo "unzping schema archive "
- unzip -o  mongodb.zip
+ unzip -o  mongodb.zip &>>/tmp/log
  cd mongodb-main
  echo "loading schema"
- mongo < catalogue.js >>/tmp/log
- mongo < users.js   >>/tmp/log
+ mongo < catalogue.js &>>/tmp/log
+ mongo < users.js   &>>/tmp/log

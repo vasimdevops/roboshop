@@ -1,4 +1,4 @@
-echo "installing mongodb"
+echo "setting up mongodb repo"
 
 echo '[mongodb-org-4.2]
 name=MongoDB Repository
@@ -8,10 +8,11 @@ enabled=1
 gpgkey=https://www.mongodb.org/static/pgp/server-4.2.asc' >/etc/yum.repos.d/mongodb.repo
 
 #Install Mongo & Start Service.
-
- yum install -y mongodb-org 
+echo "installing mongodb"
+ yum install -y mongodb-org  </tmp/log
  sed -i -e 's/127.0.0.1/0.0.0.0/' /etc/mongod.conf
  
+echo "starting mongodb" 
  systemctl enable mongod
 systemctl restart mongod
 #Update Liste IP address from 127.0.0.1 to 0.0.0.0 in config file
@@ -22,10 +23,13 @@ systemctl restart mongod
 #Every Database needs the schema to be loaded for the application to work.
 #Download the schema and load it.
 
-curl -s -L -o /tmp/mongodb.zip "https://github.com/roboshop-devops-project/mongodb/archive/main.zip"
+echo "downloading schema"
+curl -s -L -o /tmp/mongodb.zip "https://github.com/roboshop-devops-project/mongodb/archive/main.zip" </tmp/log
 
  cd /tmp
+ echo "unzping schema archive "
  unzip mongodb.zip
  cd mongodb-main
- mongo < catalogue.js
- mongo < users.js 
+ echo "loading schema"
+ mongo < catalogue.js </tmp/log
+ mongo < users.js   </tmp/log
